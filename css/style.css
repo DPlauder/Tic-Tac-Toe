@@ -8,9 +8,14 @@
     width: 60vw;
     margin-left: auto;
     margin-right: auto;
-    background-color: azure;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 2fr) 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    text-align: center;
+    
+}
+
+.felder {
+    border: 1px solid;
 }
 
