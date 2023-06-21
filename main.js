@@ -39,25 +39,20 @@ class NeuesSpiel{
         this.auswahl = auswahl;
     }
 }
-/*
-const restart = (player1, player2, werdran) => {
 
-    console.log('test', player1);
-} */
 
 //--------------------------Spiel Daten/ Gamemaster func ------------------------------------------------------
 const spielen = (player1, player2, wer) => {
-    let spiel = new NeuesSpiel(0, wer)
-    console.log(spiel);
-    feldErkennen('click', spiel)
-    //restart(player1,player2, werdran )
+    let spiel = new NeuesSpiel(0, wer);
+    feldErkennen('click', spiel);
+    //restart();
 }
 const feldErkennen = (event, spiel) =>{
     let feld = document.getElementById('spielfeld')
     feld.addEventListener(event, (e) => {
         let targetElement = e.target;
-        feldMarkieren(targetElement, spiel)
-        feldErstellen(targetElement)
+        feldMarkieren(targetElement, spiel);
+        feldErstellen(targetElement, spiel);
         //playerTurn(spiel);
         /*
         while (targetElement != null) {
@@ -81,23 +76,40 @@ const feldMarkieren = (targetElement, spiel) => {
         alert('Feld ist schon besetzt');
     }
 }
-const changeRound = (spiel) => {
-    
+const changeRound = (spiel) => {   
     spiel.welcheRunde = spiel.welcheRunde + 1;
-    console.log(spiel.welcheRunde);
     
 }
-const feldErstellen = (targetElement) => {
+const feldErstellen = (targetElement, spiel) => {
     let feld = document.querySelector('.felder');
     feld = targetElement.dataset.value;
     console.log('feld', feld);
-    spiel.werFeld = spiel.werfeld[feld]
+    //spiel.werFeld = spiel.werfeld[feld]
 }
 
 /*
-const winCondition = () => {
-     
-    123 if(1 == 2 && 2 == 3) || 2 == O)
+const restart = () => {
+    let btn = document.getElementById('restart')
+    btn.addEventListener('click', () => {
+        init()
+    })
+    console.log('test', player1);
+}
+
+
+const winCondition = (spiel) => {    
+    if( (0 === 1 && 1 === 2) ||
+        (3 === 4 && 4 === 5)) ||
+        (6 === 7 && 7 === 8) ||
+
+        (0 === 3 && 3 === 6) ||
+        (1 === 4 && 4 === 7) ||
+        (2 === 5 && 5 === 8) ||
+
+        (0 === 4 && 4 === 8) ||
+        (6=== 4 && 4 === 2)     {
+
+    }
     456
     789
 
