@@ -1,4 +1,24 @@
 "use strict"
+
+//-----------------------------Anzeige im HTML Switchen-------------------------------------------
+const toogleShowForm = (() => {
+    let form = document.getElementById('form');
+    form.classList.toggle('anzeige_weg');
+})
+const toogleShowGame = (() => {
+    let spielfeld = document.getElementById('spielablauf');
+    spielfeld.classList.toggle('anzeige_weg');
+})
+const toogleShowFinal = (() => {
+    let ergebnis = document.getElementById('ergebnis');
+    ergebnis.classList.toggle('anzeige_weg');   
+})
+const toogleShowZug = (() => {
+    let p1 = document.getElementById('zug1');
+    let p2 = document.getElementById('zug2');
+    p1.classList.toggle('anzeige_weg');
+    p2.classList.toggle('anzeige_weg');
+}) 
 //-----------------------------Spieler erstellen---------------------------------------------------
 function Players(name, punkte, mark) {
     //this.punkte = 0;
@@ -14,15 +34,28 @@ const init = (() => {
             alert('Namen eingeben!');
         } else {
             player1 = new Players(player1, 0, 'X');
-             player2 = new Players(player2, 0, 'O');
+            player2 = new Players(player2, 0, 'O');
+            toogleShowForm();
+            toogleShowGame();
+            playerDisplay(player1, player2)
             spielen(player1, player2, 'p1');
         }
     })
 })()
-//--------------------------Spiel starten-----------------------------------------------------
+
+const playerDisplay = (player1, player2) => {
+    let p1 = document.getElementById('p1');
+    let p2 = document.getElementById('p2');
+    console.log(p1);
+    p1.innerHTML = player1.name;
+    p2.innerHTML = player2.name;
+}
+//-----------------------------Spiel starten-----------------------------------------------------
 class NeuesSpiel{   
-    constructor(runde, werdran, spielfeld){
+    constructor(runde, werdran, spielfeld, player1, player2){
         this.runde = runde;
+        this.player1 = player1;
+        this.player2 = player2
         this.werDran = werdran;
         this.spielfeld = spielfeld;
         this.end = 'run';
@@ -40,32 +73,26 @@ class NeuesSpiel{
         this.auswahl = auswahl;
     }
 }
-//--------------------------Spiel Daten/ Gamemaster func ------------------------------------------------------
+//-----------------------------Spiel Daten/ Gamemaster func ------------------------------------------------------
 const spielen = (player1, player2, wer) => {
     let spielfeld = ['a','b','c','d','e','f','g','h','i'];
-    let spiel = new NeuesSpiel(0, wer, spielfeld);
-    feldErkennen('click', spiel);
-    //restart();
+    let spiel = new NeuesSpiel(0, wer, spielfeld, player1, player2);
+    feldErkennen('click', spiel, player1, player2);
 }
-const feldErkennen = (event, spiel) =>{
+const feldErkennen = (event, spiel, player1, player2) =>{
     let feld = document.getElementById('spielfeld')   
         feld.addEventListener(event, (e) => {
             let targetElement = e.target;
             if (spiel.end === 'run'){
                 feldMarkieren(targetElement, spiel);
             } else if (spiel.end === 'win'){
-                console.log('spiel sieg');
+                winner(player1, player2)
             } else if (spiel.end === 'draw') {
                 console.log(('spiel draw'));
             }
-            //playerTurn(spiel);
-            /*
-            while (targetElement != null) {
-                targetElement = targetElement.parentElement;
-            }*/
-        }, true)
-    
+        }, true)    
 }
+//-----------------------------Marker am Feld + Wechsel wer dran-------------------------------------------
 const feldMarkieren = (targetElement, spiel) => {
     if(targetElement.innerHTML === ""){
         if(spiel.werDran == 'p1'){
@@ -78,27 +105,30 @@ const feldMarkieren = (targetElement, spiel) => {
             spiel.werZug = 'p1';
             changeRound(spiel)
         }
+        toogleShowZug();
         feldErstellen(targetElement, spiel);
     }
-    else if(targetElement.innerHTML === 'Restart'){
+    else if(targetElement.innerHTML === 'NEU STARTEN'){
         restart()
     }
     else {
         alert('Feld ist schon besetzt');
     }
 }
+//-----------------------------Rundenzähler-----------------------------------------------------------
 const changeRound = (spiel) => {   
-    spiel.welcheRunde = spiel.welcheRunde + 1;
-    
+    spiel.welcheRunde = spiel.welcheRunde + 1;    
 }
+//-----------------------------ändern Array Felder-----------------------------------------------------
 const feldErstellen = (targetElement, spiel) => {
     let feld = document.querySelector('.felder');
     feld = targetElement.dataset.value;
     spiel.spielfeld[feld] = spiel.werDran;
     endCondition(spiel);   
 }
+//-----------------------------------------------------------------------------------------------------------------
 const restart = () => {
-    navigator.reload();
+    location.reload();
 }
 const endCondition = (spiel) => { 
     if( (spiel.spielfeld[0] === spiel.spielfeld[1] && spiel.spielfeld[1] === spiel.spielfeld[2]) ||
@@ -111,18 +141,29 @@ const endCondition = (spiel) => {
 
         (spiel.spielfeld[0] === spiel.spielfeld[4] && spiel.spielfeld[4] === spiel.spielfeld[8]) ||
         (spiel.spielfeld[6] === spiel.spielfeld[4] && spiel.spielfeld[4] === spiel.spielfeld[2])){   
-        console.log(spiel.werDran, 'hat gewonnen');
         spiel.end = 'win';
-    } else if(spiel.welcheRunde >= 8) {
+        ergebnis(spiel, player1, player2)
+    } else if(spiel.welcheRunde >= 9) {
         spiel.end = 'draw';
+        ergebnis(spiel, player1, player2)
     }
 }
-/*
-const playerTurn = (spiel) => {
-    if(spiel.runde % 2 === 0) {
-        spiel.werdran = 'p1';
-    } else {
-        spiel.werdran = 'p2';
-    }
-}
-*/
+//-----------------------------Spiel Ende/ Meldung Runden Ende---------------------------------------------------
+const ergebnis = ((spiel) => {
+    let ausgabe = document.getElementById('ausgabe');
+    if(spiel.end === 'win'){  
+        let winner = ""
+        if(spiel.werDran === 'p1'){
+            winner = spiel.player2;
+        } else {
+            winner = spiel.player1;
+        }
+        ausgabe.innerHTML = `${winner.name} hat gewonnen!`;
+    } else if (spiel.end === 'draw'){
+        ausgabe.innerHTML = `Das Spiel endet Unentschieden`;
+    }   
+    toogleShowGame();
+    toogleShowFinal();
+    let btn = document.getElementById('restart_erg');
+    btn.addEventListener('click', () => restart());
+})

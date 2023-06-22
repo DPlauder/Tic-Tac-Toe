@@ -10,30 +10,43 @@
 
 <body>
     <header class="kopf">
-        <h1 class="ue1">Tic Tac Toe</h1>
+        <h1 class="ue1">TIC TAC TOE</h1>
     </header>
-    <main>
-        <section class="form">
-            <span>Player 1:</span>
-            <input type="text" placeholder="Player 1" id="player1">
-            <span>Player 2:</span>
-            <input type="text" placeholder="Player 2" id="player2">
-            <button id="start">Start Game</button>
-        </section>
+
+    <section class="form" id="form">
+        <span>SPIELER 1</span>
+        <input type="text" placeholder="Namen eingeben" class="eingabefelder" id="player1">
+        <span>SPIELER 2</span>
+        <input type="text" placeholder="Namen eingeben" class="eingabefelder" id="player2">
+        <button class="eingabefelder" id="start">STARTE SPIEL</button>
+    </section>
+    <main class="spielablauf anzeige_weg" id="spielablauf">
+        <aside class="spieler player1" >
+            <span id="p1"></span>
+            <span class="ist_dran" id="zug1">AM ZUG</span>
+        </aside>
         <section class="spielfeld" id="spielfeld">
             <div class="felder feld_eins" id="felder" data-value="0"></div>
-            <div class="felder feld_zwei" id="felder" data-value="1"></div>
+            <div class="felder feld_zwei hoch" id="felder" data-value="1"></div>
             <div class="felder feld_drei" id="felder" data-value="2"></div>
-            <div class="felder feld_vier" id="felder" data-value="3"></div>
-            <div class="felder feld_fuenf" id="felder" data-value="4"></div>
-            <div class="felder feld_sechs" id="felder" data-value="5"></div>
+            <div class="felder feld_vier seite" id="felder" data-value="3"></div>
+            <div class="felder feld_fuenf hoch seite" id="felder" data-value="4"></div>
+            <div class="felder feld_sechs seite" id="felder" data-value="5"></div>
             <div class="felder feld_sieben" id="felder" data-value="6"></div>
-            <div class="felder feld_acht" id="felder" data-value="7"></div>
+            <div class="felder feld_acht hoch" id="felder" data-value="7"></div>
             <div class="felder feld_neun" id="felder" data-value="8"></div>
-            <button id="restart">Restart</button>        
+            <button class="feld_btn" id="restart">NEU STARTEN</button>
         </section>
+        <aside class="spieler player2">
+            <span id="p2"></span>
+            <span class="ist_dran anzeige_weg" id="zug2">AM ZUG</span>
+        </aside>
     </main>
-    
+    <section class="ergebnis anzeige_weg" id="ergebnis">
+        <span class="ausgabe" id="ausgabe"></span>
+        <button class="restart_erg" id="restart_erg">NEUES SPIEL</button>
+    </section>
+
 
     <script src="main.js"></script>
 </body>
