@@ -38,8 +38,7 @@ const playerInfo = () => {
             toogleShowForm();
             toogleShowGame();
             playerDisplay(player1, player2)
-            spielen(player1, player2, 'p1');
-        
+            spielen(player1, player2, 'p1');       
         }
     })   
 }
@@ -142,10 +141,10 @@ const endCondition = (spiel) => {
         (spiel.spielfeld[0] === spiel.spielfeld[4] && spiel.spielfeld[4] === spiel.spielfeld[8]) ||
         (spiel.spielfeld[6] === spiel.spielfeld[4] && spiel.spielfeld[4] === spiel.spielfeld[2])){   
         spiel.end = 'win';
-        ergebnis(spiel, player1, player2)
+        ergebnis(spiel)
     } else if(spiel.welcheRunde >= 9) {
         spiel.end = 'draw';
-        ergebnis(spiel, player1, player2)
+        ergebnis(spiel)
     }
 }
 //-----------------------------Spiel Ende/ Meldung Runden Ende---------------------------------------------------
@@ -167,7 +166,6 @@ const ergebnis = ((spiel) => {
     let btn = document.getElementById('restart_erg');
     btn.addEventListener('click', () => restart());
 })
-
 const init = (() => {
     playerInfo()
 })()
