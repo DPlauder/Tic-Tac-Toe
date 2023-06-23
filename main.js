@@ -19,13 +19,13 @@ const toogleShowZug = (() => {
     p1.classList.toggle('anzeige_weg');
     p2.classList.toggle('anzeige_weg');
 }) 
-//-----------------------------Spieler erstellen---------------------------------------------------
+//-----------------------------Spieler erstellen/Anzeigen---------------------------------------------------
 function Players(name, punkte, mark) {
     //this.punkte = 0;
     //this.mark = mark;
     return {name}
 }
-const init = (() => {
+const playerInfo = () => {
     let startBtn = document.getElementById('start')
     startBtn.addEventListener('click', () => {
         let player1 = document.getElementById('player1').value;
@@ -39,17 +39,17 @@ const init = (() => {
             toogleShowGame();
             playerDisplay(player1, player2)
             spielen(player1, player2, 'p1');
+        
         }
-    })
-})()
-
+    })   
+}
 const playerDisplay = (player1, player2) => {
     let p1 = document.getElementById('p1');
     let p2 = document.getElementById('p2');
-    console.log(p1);
     p1.innerHTML = player1.name;
     p2.innerHTML = player2.name;
 }
+
 //-----------------------------Spiel starten-----------------------------------------------------
 class NeuesSpiel{   
     constructor(runde, werdran, spielfeld, player1, player2){
@@ -167,3 +167,7 @@ const ergebnis = ((spiel) => {
     let btn = document.getElementById('restart_erg');
     btn.addEventListener('click', () => restart());
 })
+
+const init = (() => {
+    playerInfo()
+})()
